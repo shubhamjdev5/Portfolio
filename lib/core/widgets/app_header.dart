@@ -1,21 +1,26 @@
 import 'package:flutter/material.dart';
+import 'package:insureme/core/constants/app_textstyles.dart';
 import '../../core/utils/responsive.dart';
 
 class HeaderWidget extends StatefulWidget {
   final ScrollController scrollController;
   final VoidCallback onHomeTap;
   final VoidCallback onAboutTap;
-  final VoidCallback onProjectsTap;
-  final VoidCallback onContactTap;
+  final VoidCallback onServiceTap;
+  final VoidCallback whyChooseMeTap;
+
+  final List<Widget> screens;
 
   const HeaderWidget({
-    Key? key,
+    super.key,
     required this.scrollController,
     required this.onHomeTap,
     required this.onAboutTap,
-    required this.onProjectsTap,
-    required this.onContactTap,
-  }) : super(key: key);
+    required this.onServiceTap,
+    required this.whyChooseMeTap,
+
+    required this.screens,
+  });
 
   @override
   State<HeaderWidget> createState() => _HeaderWidgetState();
@@ -48,6 +53,7 @@ class _HeaderWidgetState extends State<HeaderWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     final isMobile = Responsive.isMobile(context);
 
     return AnimatedSlide(
@@ -60,43 +66,62 @@ class _HeaderWidgetState extends State<HeaderWidget> {
           key: _scaffoldKey,
           endDrawer: isMobile ? _buildDrawer(context) : null,
           backgroundColor: Colors.transparent,
-          body: Container(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 30.0,
-              vertical: 16.0,
-            ),
-            color: Colors.white.withOpacity(0.95),
-            child: Row(
-              mainAxisAlignment: isMobile
-                  ? MainAxisAlignment.spaceBetween
-                  : MainAxisAlignment.end,
-              children: [
-                // Logo or Name
-                Text(
-                  "Shubham",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: isMobile ? 18 : 22,
-                    color: Colors.black87,
+          body: CustomScrollView(
+            slivers: [
+              SliverAppBar(
+                pinned: false, // Hides when scrolling down
+                floating: true, // Appears when scrolling up
+                snap: false, // Smooth reveal without snapping
+                expandedHeight: 50,
+                backgroundColor: Colors.transparent,
+                flexibleSpace: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Color(0xff070311),
+                        Color(0xff0E0726),
+                        Color(0xff0A0519),
+                      ],
+                    ),
+                  ),
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: size.width * 0.05,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          // Logo or Name
+                          Text("Bali Shah", style: AppTextstyles.white_16_600),
+
+                          if (isMobile)
+                            IconButton(
+                              icon: const Icon(Icons.menu_rounded, size: 26),
+                              onPressed: _openDrawer,
+                            )
+                          else
+                            Row(
+                              spacing: 30,
+                              children: [
+                                _buildNavItem("Home", widget.onHomeTap),
+                                _buildNavItem("Services", widget.onServiceTap),
+                                _buildNavItem("About", widget.onAboutTap),
+                                _buildNavItem(
+                                  "Why to choose?",
+                                  widget.whyChooseMeTap,
+                                ),
+                              ],
+                            ),
+                        ],
+                      ),
+                    ),
                   ),
                 ),
-
-                if (isMobile)
-                  IconButton(
-                    icon: const Icon(Icons.menu_rounded, size: 26),
-                    onPressed: _openDrawer,
-                  )
-                else
-                  Row(
-                    children: [
-                      _buildNavItem("Home", widget.onHomeTap),
-                      _buildNavItem("About", widget.onAboutTap),
-                      _buildNavItem("Projects", widget.onProjectsTap),
-                      _buildNavItem("Contact", widget.onContactTap),
-                    ],
-                  ),
-              ],
-            ),
+              ),
+              SliverList(delegate: SliverChildListDelegate(widget.screens)),
+            ],
           ),
         ),
       ),
@@ -104,19 +129,9 @@ class _HeaderWidgetState extends State<HeaderWidget> {
   }
 
   Widget _buildNavItem(String title, VoidCallback onTap) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: InkWell(
-        onTap: onTap,
-        child: Text(
-          title,
-          style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.w600,
-            color: Colors.black87,
-          ),
-        ),
-      ),
+    return InkWell(
+      onTap: onTap,
+      child: Text(title, style: AppTextstyles.white_16_600),
     );
   }
 
@@ -126,9 +141,9 @@ class _HeaderWidgetState extends State<HeaderWidget> {
         padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 20),
         children: [
           _drawerItem("Home", widget.onHomeTap),
-          _drawerItem("About", widget.onAboutTap),
-          _drawerItem("Projects", widget.onProjectsTap),
-          _drawerItem("Contact", widget.onContactTap),
+          _drawerItem("Services", widget.onAboutTap),
+          _drawerItem("About", widget.whyChooseMeTap),
+          _drawerItem("Why to choose?", widget.whyChooseMeTap),
         ],
       ),
     );

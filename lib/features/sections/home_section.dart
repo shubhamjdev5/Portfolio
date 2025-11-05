@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:insureme/core/constants/app_images.dart';
+import 'package:insureme/core/constants/app_textstyles.dart';
 import '../../core/utils/responsive.dart';
 
 class HomeSection extends StatelessWidget {
-  const HomeSection({Key? key}) : super(key: key);
+  const HomeSection({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -10,10 +12,17 @@ class HomeSection extends StatelessWidget {
     final isMobile = Responsive.isMobile(context);
 
     return Container(
+      decoration: BoxDecoration(
+        gradient: RadialGradient(
+          radius: 1,
+          center: AlignmentGeometry.topRight,
+          colors: [Color(0xff190C42), Color(0xff070311)],
+        ),
+      ),
       height: size.height, // full screen height
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
-      color: Colors.white,
+
       child: Flex(
         direction: isMobile ? Axis.vertical : Axis.horizontal,
         mainAxisAlignment: MainAxisAlignment.center,
@@ -35,36 +44,28 @@ class HomeSection extends StatelessWidget {
                     ? CrossAxisAlignment.center
                     : CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "LET’S EXPLORE TOGETHER",
-                    textAlign: isMobile ? TextAlign.center : TextAlign.start,
-                    style: TextStyle(
-                      fontSize: isMobile ? 14 : 18,
-                      letterSpacing: 3,
-                      color: Colors.grey[700],
-                      fontWeight: FontWeight.w500,
+                  FittedBox(
+                    child: Text(
+                      "LET’S SECURE THE ",
+                      textAlign: isMobile ? TextAlign.center : TextAlign.start,
+                      style: AppTextstyles.white_24_500_24,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  Text(
-                    "THE FUTURE",
-                    textAlign: isMobile ? TextAlign.center : TextAlign.start,
-                    style: TextStyle(
-                      fontSize: isMobile ? 38 : 68,
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 2,
-                      height: 1.1,
+
+                  FittedBox(
+                    child: Text(
+                      "FUTURE",
+                      textAlign: isMobile ? TextAlign.center : TextAlign.start,
+                      style: AppTextstyles.white_140_900_20,
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Text(
-                    "Your future deserves clarity. We help you make confident "
-                    "decisions — Insurance, Loans, and Investments made simple.",
-                    textAlign: isMobile ? TextAlign.center : TextAlign.start,
-                    style: TextStyle(
-                      fontSize: isMobile ? 14 : 18,
-                      color: Colors.grey[700],
-                      height: 1.5,
+
+                  FittedBox(
+                    child: Text(
+                      "Your future deserves clarity and confidence. Bali Shah is here to guide\nyou with expert advice in"
+                      "Insurance, Loans, and Investments — helping\n you make smart, secure, and stress-free financial decisions.",
+                      textAlign: isMobile ? TextAlign.center : TextAlign.start,
+                      style: AppTextstyles.white_20_500,
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -96,8 +97,8 @@ class HomeSection extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.only(top: isMobile ? 30 : 0),
               child: Center(
-                child: Image.network(
-                  "https://www.meazurelearning.com/wp-content/uploads/2022/02/Hero-Images-Final_Markets-.png",
+                child: Image.asset(
+                  AppImages.homeImage,
                   height: isMobile ? size.height * 0.3 : size.height * 0.6,
                   fit: BoxFit.contain,
                 ),
