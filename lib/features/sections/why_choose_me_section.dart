@@ -16,7 +16,10 @@ class WhyChooseMeSection extends StatelessWidget {
       height: size.height, // full screen height
       width: double.infinity,
       decoration: BoxDecoration(color: AppColors.primaryBackground),
-      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+      padding: EdgeInsets.symmetric(
+        horizontal: isMobile ? 0 : 40,
+        vertical: 20,
+      ),
       child: isMobile
           ? _buildMobileLayout(context)
           : _buildDesktopLayout(context, size),
@@ -166,9 +169,26 @@ class WhyChooseMeSection extends StatelessWidget {
                   color: const Color(0xFF7C3AED),
                   borderRadius: BorderRadius.circular(8),
                 ),
-                child: Text(
-                  "WHY CHOOSE ME?",
-                  style: AppTextstyles.white_20_500,
+                child: FittedBox(
+                  child: RichText(
+                    text: TextSpan(
+                      text: 'WHY\n',
+                      style: AppTextstyles.white_20_500,
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: 'CHOOSE\n',
+                          style: AppTextstyles.white_50_500.copyWith(
+                            fontWeight: FontWeight.w900,
+                            fontSize: 25,
+                          ),
+                        ),
+                        TextSpan(
+                          text: 'ME?',
+                          style: AppTextstyles.white_20_500,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -213,10 +233,12 @@ class WhyChooseMeSection extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  '◈ $title',
-                  style: AppTextstyles.white_20_500.copyWith(
-                    fontWeight: FontWeight.w700,
+                FittedBox(
+                  child: Text(
+                    '◈ $title',
+                    style: AppTextstyles.white_20_500.copyWith(
+                      fontWeight: FontWeight.w700,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 4),

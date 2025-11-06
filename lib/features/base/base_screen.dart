@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:insureme/core/widgets/app_header.dart';
+import 'package:insureme/features/sections/contact_section.dart';
 import 'package:insureme/features/sections/services_section.dart';
 import 'package:insureme/features/sections/why_choose_me_section.dart';
 import '../sections/home_section.dart';
@@ -40,6 +41,7 @@ class _BaseScreenState extends State<BaseScreen> {
         HomeSection(key: homeKey),
         ServicesSection(key: serviceKey),
         WhyChooseMeSection(key: whyChooseMeKey),
+        ContactSection(key: contactKey),
       ],
     );
   }
